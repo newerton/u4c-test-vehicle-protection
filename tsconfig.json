@@ -1,20 +1,49 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "lib": [
-      "es5",
-      "es6"
-    ],
-    "target": "es6",
     "module": "commonjs",
-    "moduleResolution": "node",
+    "declaration": true,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "dist",
-    "sourceMap": true
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": false,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@config/*": [
+        "config/*"
+      ],
+      "@database/*": [
+        "database/*"
+      ],
+      "@entities/*": [
+        "entities/*"
+      ],
+      "@plugins/*": [
+        "plugins/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ],
+      "@schemas/*": [
+        "schemas/*"
+      ],
+    }
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "test"
   ],
   "exclude": [
     "node_modules"

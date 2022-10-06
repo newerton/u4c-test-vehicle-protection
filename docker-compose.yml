@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: .docker/Dockerfile
+  #   container_name: u2c-app
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - DB_PORT=5432
+  #     - DB_NAME=u4c
+  #     - DB_USER=docker
+  #     - DB_PASSWORD=docker
+  #     - NODE_ENV=development
+  #   volumes:
+  #     - ./:/usr/src/app
+  #   command: npm run start
+
+  postgres:
+    image: postgres
+    container_name: u2c-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=u4c
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+
+volumes:
+  postgres:
+    driver: local
