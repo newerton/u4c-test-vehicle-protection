@@ -90,3 +90,20 @@ Time:        11.623 s, estimated 12 s
 | POST   | /v1/users          | Creates a new user          |
 | GET    | /v1/users/{id}     | Returns a user              |
 | PUT    | /v1/users/{id}     | Update a new user           |
+
+## Ambiente de desenvolvimento
+
+Copiar o arquivo `.env.example` para `.env`, e alterar as configurações, caso tenha feita alguma alteração no dados do `docker-compose.yaml`
+```cli
+cp .env.example .env
+```
+Executar o migration do banco de dados
+
+```cli
+npm run typeorm migration:run -- -d .\src\database\typeorm\datasource.ts
+```
+
+Executando a aplicação
+```cli
+npm run start
+```
