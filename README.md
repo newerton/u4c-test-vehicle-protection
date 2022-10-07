@@ -53,9 +53,12 @@ Com o docker instalado, precisamo subir um container do banco de dados PostgreSQ
 docker-composer up -d
 ```
 
-Após a conclusão, execute os comando de testes
+Após a conclusão, instale as dependências
+```cli
+npm i
+```
 
-Teste com jest usando o compilador SWC da Vercel
+Executando os testes com a biblioteca jest usando o compilador SWC da Vercel
 
 ```cli
 npm run test
