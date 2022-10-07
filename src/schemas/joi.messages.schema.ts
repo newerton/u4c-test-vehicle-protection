@@ -9,6 +9,7 @@ const MessagesSchema = (): LanguageMessages => {
     'date.format': '{#label} está incorreta, o formato é {#format}.',
     'document.cpf': '{#label} inválido',
     'document.cnpj': '{#label} inválido',
+    'number.base': '{#label} deve ser números',
     'number.min': '{#label} deve ter no mínimo {#limit} números',
     'number.max': '{#label} deve ter no máximo {#limit} números {#value}',
     'number.greater': '{#label} deve ser maior que {#limit} números',

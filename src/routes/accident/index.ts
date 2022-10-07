@@ -14,6 +14,22 @@ export const accidentEventRouters = [
     },
   },
   {
+    method: 'GET',
+    path: '/accidents/{id}',
+    options: {
+      tags: ['api', 'accidents'],
+      description: 'Returns a accident event',
+      pre: [
+        {
+          assign: 'userExists',
+          method: Helpers.accidentEventExists,
+        },
+      ],
+      handler: Handlers.getAccidentEvent,
+      validate: Schemas.uuidValidation,
+    },
+  },
+  {
     method: 'POST',
     path: '/accidents',
     options: {

@@ -37,7 +37,8 @@ export class CreateAccidentEvent1665076674398 implements MigrationInterface {
           },
           {
             name: 'description',
-            type: 'text',
+            type: 'varchar',
+            length: '2048',
           },
           {
             name: 'is_active',

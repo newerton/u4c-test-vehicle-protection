@@ -1,4 +1,4 @@
-import { cnpj, cpf } from 'cpf-cnpj-validator';
+import { cpf } from 'cpf-cnpj-validator';
 
 export class UserFixtures {
   static invalidRequired() {
@@ -62,9 +62,21 @@ export class UserFixtures {
         },
       },
       {
+        payload: { first_name: '' },
+        expected: {
+          message: '"Nome" não pode ser vazio',
+        },
+      },
+      {
         payload: { first_name: 'John', last_name: null },
         expected: {
           message: '"Sobrenome" inválido',
+        },
+      },
+      {
+        payload: { first_name: 'John', last_name: '' },
+        expected: {
+          message: '"Sobrenome" não pode ser vazio',
         },
       },
       {
@@ -89,6 +101,12 @@ export class UserFixtures {
         payload: { first_name: 'John', last_name: 'Doe', document: null },
         expected: {
           message: '"CPF" inválido',
+        },
+      },
+      {
+        payload: { first_name: 'John', last_name: 'Doe', document: '' },
+        expected: {
+          message: '"CPF" não pode ser vazio',
         },
       },
       {

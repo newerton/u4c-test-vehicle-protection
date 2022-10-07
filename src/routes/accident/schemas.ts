@@ -5,9 +5,19 @@ import joiMessagesSchema from '@schemas/joi.messages.schema';
 
 const Joi = JoiBase.extend(documentValidator);
 
+export const uuidValidation = {
+  params: Joi.object({
+    id: Joi.string().guid().label('ID').messages(joiMessagesSchema),
+  }),
+};
+
 export const createValidationAccidentEvent = {
   payload: Joi.object({
-    user_id: Joi.string().guid().label('Usuário').messages(joiMessagesSchema),
+    user_id: Joi.string()
+      .guid()
+      .required()
+      .label('Usuário')
+      .messages(joiMessagesSchema),
     vehicle: Joi.string()
       .required()
       .label('Veículo')
@@ -24,7 +34,7 @@ export const createValidationAccidentEvent = {
     description: Joi.string()
       .max(2048)
       .required()
-      .label('descrição')
+      .label('Descrição')
       .messages(joiMessagesSchema),
     users: Joi.array()
       .items(
@@ -34,10 +44,25 @@ export const createValidationAccidentEvent = {
             .label('Nome')
             .messages(joiMessagesSchema),
           last_name: Joi.string()
+            .required()
             .label('Sobrenome')
-            .allow('', null)
             .messages(joiMessagesSchema),
-          document: Joi.document().required().cpf(),
+          document: Joi.document()
+            .required()
+            .cpf()
+            .error((errors: any) => {
+              errors.forEach((err: JoiBase.ErrorReport) => {
+                switch (err.code) {
+                  case 'any.required':
+                    err.message = `O CPF do terceiro é obrigatório`;
+                    break;
+                  case 'string.base':
+                    err.message = `O CPF do terceiro inválido`;
+                    break;
+                }
+              });
+              return errors;
+            }),
         }),
       )
       .allow(null),
@@ -52,7 +77,7 @@ export const updateValidationAccidentEvent = {
     description: Joi.string()
       .max(2048)
       .required()
-      .label('descrição')
+      .label('Descrição')
       .messages(joiMessagesSchema),
     users: Joi.array()
       .items(
@@ -62,10 +87,25 @@ export const updateValidationAccidentEvent = {
             .label('Nome')
             .messages(joiMessagesSchema),
           last_name: Joi.string()
+            .required()
             .label('Sobrenome')
-            .allow('', null)
             .messages(joiMessagesSchema),
-          document: Joi.document().required().cpf(),
+          document: Joi.document()
+            .required()
+            .cpf()
+            .error((errors: any) => {
+              errors.forEach((err: JoiBase.ErrorReport) => {
+                switch (err.code) {
+                  case 'any.required':
+                    err.message = `O CPF do terceiro é obrigatório`;
+                    break;
+                  case 'string.base':
+                    err.message = `O CPF do terceiro inválido`;
+                    break;
+                }
+              });
+              return errors;
+            }),
         }),
       )
       .allow(null),

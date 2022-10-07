@@ -1,4 +1,3 @@
-import * as Boom from '@hapi/boom';
 import { Request } from '@hapi/hapi';
 import { hash } from 'bcrypt';
 import { instanceToPlain } from 'class-transformer';
@@ -23,6 +22,7 @@ export const getUser = async (request: Request) => {
   const user = await repository.findOneBy({ id });
   return instanceToPlain(user);
 };
+
 export const createUser = async (request: Request, h) => {
   const { document, password } = <User>request.payload;
   const repository = AppDataSource.getRepository(User);

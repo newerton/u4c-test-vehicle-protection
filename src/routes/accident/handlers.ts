@@ -21,17 +21,24 @@ type RequestAccidentEvent = AccidentEvent & {
 
 export const getAccidentEvents = async () => {
   const repository = AppDataSource.getRepository(AccidentEvent);
+  const accidentEvents = await repository.find({
+    relations: ['owner', 'users', 'users.user'],
+    where: { is_active: true },
+    order: {
+      created_at: 'DESC',
+    },
+  });
+  return instanceToPlain(accidentEvents);
+};
 
-  try {
-    const accidentEvents = await repository.find({
-      relations: ['owner', 'users', 'users.user'],
-      where: { is_active: true },
-    });
-    return instanceToPlain(accidentEvents);
-  } catch (e) {
-    console.log(e);
-    throw Boom.badRequest('Unable to retrieve accident events', e);
-  }
+export const getAccidentEvent = async (request: Request) => {
+  const { id } = request.params;
+  const repository = AppDataSource.getRepository(AccidentEvent);
+  const accidentEvents = await repository.findOne({
+    relations: ['owner', 'users', 'users.user'],
+    where: { id, is_active: true },
+  });
+  return instanceToPlain(accidentEvents);
 };
 
 export const createAccidentEvent = async (request: Request, h) => {
@@ -58,7 +65,7 @@ export const createAccidentEvent = async (request: Request, h) => {
 
     await queryRunner.commitTransaction();
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     await queryRunner.rollbackTransaction();
     throw Boom.badRequest('Acidente não cadastrado');
   } finally {
@@ -92,7 +99,7 @@ export const updateAccidentEvent = async (request: Request, h) => {
 
     await queryRunner.commitTransaction();
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     await queryRunner.rollbackTransaction();
     throw Boom.badRequest('Acidente não cadastrado');
   } finally {

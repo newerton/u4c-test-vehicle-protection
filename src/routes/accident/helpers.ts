@@ -13,7 +13,7 @@ export const accidentRegistered = async (request: Request, h) => {
     id: user_id,
   });
   if (!user) {
-    throw Boom.conflict('Usuário não encontrado.');
+    throw Boom.notFound('Usuário não encontrado.');
   }
 
   // TODO

@@ -1,5 +1,6 @@
 import path from 'path';
 
+import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Server } from '@hapi/hapi';
 import { cpf } from 'cpf-cnpj-validator';
 import request from 'supertest';
@@ -9,20 +10,32 @@ import { AppDataSource } from '@database/typeorm/datasource';
 import { USER_TYPE } from '@entities/user.entity';
 import { UserFixtures } from '@routes/users/fixtures';
 
-import { getServer } from '../src/index';
-describe('Setup for User Functional Tests', () => {
+import { getServer } from '../../src/index';
+describe('User e2e Tests', () => {
   let server: Server;
   let connection: any;
+  let userPayload;
+
   beforeAll(async () => {
     AppDataSource.setOptions({
-      entities: [path.join(__dirname, '../src/entities/*.entity.ts')],
-      migrations: [path.join(__dirname, '../src/entities/*.entity.js')],
+      entities: [path.join(__dirname, '../../src/entities/*.entity.ts')],
+      migrations: [path.join(__dirname, '../../src/entities/*.entity.js')],
       synchronize: true,
       dropSchema: true,
     });
     connection = await AppDataSource.initialize();
     await connection.synchronize(true);
     server = await getServer();
+  });
+
+  beforeEach(() => {
+    userPayload = {
+      first_name: faker.name.firstName(),
+      last_name: faker.name.lastName(),
+      document: cpf.generate(),
+      password: '123456',
+      repeat_password: '123456',
+    };
   });
 
   afterAll(async () => {
@@ -35,13 +48,6 @@ describe('Setup for User Functional Tests', () => {
     });
 
     it('should return status code 200 and a user object', async () => {
-      const userPayload = {
-        first_name: 'John',
-        last_name: 'Doe',
-        document: cpf.generate(),
-        password: '123456',
-        repeat_password: '123456',
-      };
       await request(server.listener)
         .post('/v1/users')
         .send(userPayload)
@@ -74,13 +80,6 @@ describe('Setup for User Functional Tests', () => {
 
   describe('GET /v1/users/{id}', () => {
     it('should return status code 200', async () => {
-      const userPayload = {
-        first_name: 'John',
-        last_name: 'Doe',
-        document: cpf.generate(),
-        password: '123456',
-        repeat_password: '123456',
-      };
       await request(server.listener)
         .post('/v1/users')
         .send(userPayload)
@@ -125,13 +124,6 @@ describe('Setup for User Functional Tests', () => {
 
   describe('POST /v1/users', () => {
     it('should return status code 200, successfully registered', async () => {
-      const userPayload = {
-        first_name: 'John',
-        last_name: 'Doe',
-        document: cpf.generate(),
-        password: '123456',
-        repeat_password: '123456',
-      };
       await request(server.listener)
         .post('/v1/users')
         .send(userPayload)
@@ -154,10 +146,10 @@ describe('Setup for User Functional Tests', () => {
       await request(server.listener)
         .post('/v1/users')
         .send(userPayload)
-        .expect(409)
+        .expect(404)
         .expect({
-          statusCode: 409,
-          error: 'Conflict',
+          statusCode: 404,
+          error: 'Not Found',
           message: 'Usuário já cadastrado.',
         });
     });
@@ -207,13 +199,6 @@ describe('Setup for User Functional Tests', () => {
 
   describe('PUT /v1/users', () => {
     it('should return status code 204 when update a user email', async () => {
-      const userPayload = {
-        first_name: 'John',
-        last_name: 'Doe',
-        document: cpf.generate(),
-        password: '123456',
-        repeat_password: '123456',
-      };
       await request(server.listener)
         .post('/v1/users')
         .send(userPayload)
@@ -255,13 +240,6 @@ describe('Setup for User Functional Tests', () => {
     });
 
     it('should return status code 204 when update a user password', async () => {
-      const userPayload = {
-        first_name: 'John',
-        last_name: 'Doe',
-        document: cpf.generate(),
-        password: '123456',
-        repeat_password: '123456',
-      };
       await request(server.listener)
         .post('/v1/users')
         .send(userPayload)
@@ -297,13 +275,6 @@ describe('Setup for User Functional Tests', () => {
     });
 
     it('should return status code 204 when update a user password', async () => {
-      const userPayload = {
-        first_name: 'John',
-        last_name: 'Doe',
-        document: cpf.generate(),
-        password: '123456',
-        repeat_password: '123456',
-      };
       await request(server.listener)
         .post('/v1/users')
         .send(userPayload)
@@ -347,13 +318,6 @@ describe('Setup for User Functional Tests', () => {
       test.each(fixtures)(
         'when payload $payload',
         async ({ payload, expected }) => {
-          const userPayload = {
-            first_name: 'John',
-            last_name: 'Doe',
-            document: cpf.generate(),
-            password: '123456',
-            repeat_password: '123456',
-          };
           await request(server.listener)
             .post('/v1/users')
             .send(userPayload)

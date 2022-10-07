@@ -10,7 +10,7 @@ export const userRegistered = async (request: any, h) => {
     document: document.replace(/\D/g, ''),
   });
   if (user) {
-    throw Boom.conflict('Usuário já cadastrado.');
+    throw Boom.notFound('Usuário já cadastrado.');
   }
 
   return h.continue;

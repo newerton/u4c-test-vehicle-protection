@@ -21,7 +21,7 @@ export default {
     '^@routes/(.*)$': '<rootDir>/src/routes/$1',
     '^@schemas/(.*)$': '<rootDir>/src/schemas/$1',
   },
-  setupFilesAfterEnv: ['./tests/jest.ts'],
+  setupFilesAfterEnv: ['./tests/_jest.ts'],
   coverageThreshold: {
     global: {
       statements: 80,

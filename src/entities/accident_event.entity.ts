@@ -32,7 +32,7 @@ export class AccidentEvent {
   @Column()
   license_plate: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 2048 })
   description: string;
 
   @Column({ default: true })
