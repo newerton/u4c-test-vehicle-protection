@@ -1,7 +1,9 @@
 import * as Confidence from '@hapipal/confidence';
 import * as dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({
+  path: `./.env${process.env.NODE_ENV === 'test' ? '.testing' : ''}`,
+});
 
 const criteria = {
   env: process.env.NODE_ENV,
@@ -28,7 +30,6 @@ const config = {
     logging: process.env.DB_LOGGING === 'true',
     charset: 'utf8mb4_unicode_ci',
     entities: [`./src/**/*.entity{.ts,.js}`],
-    subscribers: [`./src/**/*.subscriber{.ts,.js}`],
     migrations: [`./src/database/typeorm/migrations/*{.ts,.js}`],
   },
 };

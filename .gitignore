@@ -6,3 +6,4 @@ build/
 
 .env
 .history/
+tests/__coverage/

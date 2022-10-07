@@ -1,6 +1,10 @@
+import 'reflect-metadata';
 import * as Boom from '@hapi/boom';
 import * as Glue from '@hapi/glue';
+import { Server } from '@hapi/hapi';
 import * as dotenv from 'dotenv';
+
+import { AppDataSource } from '@database/typeorm/datasource';
 
 import * as Config from './config';
 
@@ -16,7 +20,7 @@ process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-const manifest = {
+export const manifest = {
   server: {
     port: Config.get('/port/web'),
     routes: {
@@ -55,13 +59,27 @@ const manifest = {
   },
 };
 
-const startServer = async function () {
+export const getServer: () => Promise<Server> = async (): Promise<Server> => {
+  const server = await Glue.compose(manifest, {
+    relativeTo: __dirname,
+  });
+
+  return server;
+};
+
+const startServer = async () => {
   try {
-    const server = await Glue.compose(manifest, {
-      relativeTo: __dirname,
-    });
-    await server.start();
-    console.log('Server running at:', server.info.uri);
+    const server: Server = await getServer();
+
+    AppDataSource.initialize()
+      .then(async () => {
+        console.log('Data Source has been initialized!');
+        await server.start();
+        console.log('Server running at:', server.info.uri);
+      })
+      .catch((err) => {
+        console.error('Error during Data Source initialization', err);
+      });
   } catch (err) {
     console.log(err);
     console.error(err);
@@ -69,4 +87,8 @@ const startServer = async function () {
   }
 };
 
-startServer();
+if (require.main === module) {
+  startServer();
+} else {
+  console.log('Server setup for testing.');
+}

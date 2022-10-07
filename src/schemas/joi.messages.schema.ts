@@ -2,9 +2,13 @@ import { LanguageMessages } from 'joi';
 
 const MessagesSchema = (): LanguageMessages => {
   return {
+    'any.only':
+      '{{#label}} deve ser {if(#valids.length == 1, "", "um dos ")}{{#valids}}',
     'any.required': '{#label} é obrigatório',
     'date.base': '{#label} deve ser uma data válida',
     'date.format': '{#label} está incorreta, o formato é {#format}.',
+    'document.cpf': '{#label} inválido',
+    'document.cnpj': '{#label} inválido',
     'number.min': '{#label} deve ter no mínimo {#limit} números',
     'number.max': '{#label} deve ter no máximo {#limit} números {#value}',
     'number.greater': '{#label} deve ser maior que {#limit} números',

@@ -14,6 +14,22 @@ export const userRouters = [
     },
   },
   {
+    method: 'GET',
+    path: '/users/{id}',
+    options: {
+      tags: ['api', 'users'],
+      description: 'Returns a user',
+      pre: [
+        {
+          assign: 'userExists',
+          method: Helpers.userExists,
+        },
+      ],
+      handler: Handlers.getUser,
+      validate: Schemas.uuidValidation,
+    },
+  },
+  {
     method: 'POST',
     path: '/users',
     options: {

@@ -1,32 +1,27 @@
 export default {
   displayName: {
-    name: 'nestjs',
+    name: 'u2c',
     color: 'magentaBright',
   },
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: './',
   testRegex: '.*\\..*spec\\.ts$',
   transform: {
-    // '^.+\\.(t|j)s$': 'ts-jest',
     '^.+\\.(t|j)s$': '@swc/jest',
   },
-  collectCoverageFrom: ['**/*.(t|j)s'],
+  collectCoverageFrom: ['src/routes/**/*.(t|j)s'],
   coverageProvider: 'v8',
-  coverageDirectory: '../__coverage',
+  coverageDirectory: './tests/__coverage',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^@fc/micro\\-videos/(.*)$':
-      '<rootDir>/../../node_modules/@fc/micro-videos/dist/$1',
-    //'#seedwork/domain': '<rootDir>/../../../node_modules/@fc/micro-videos/dist/@seedwork/domain/index.js',
-    '^#seedwork/(.*)$':
-      '<rootDir>/../../node_modules/@fc/micro-videos/dist/@seedwork/$1',
-    //'#category/domain': '<rootDir>/../../../node_modules/@fc/micro-videos/dist/category/domain/index.js',
-    '^#category/(.*)$':
-      '<rootDir>/../../node_modules/@fc/micro-videos/dist/category/$1',
-    '^@categories/(.*)$': '<rootDir>/app/categories/$1',
-    '^@common/(.*)$': '<rootDir>/common/$1',
+    '^@config/(.*)$': '<rootDir>/src/config/$1',
+    '^@database/(.*)$': '<rootDir>/src/database/$1',
+    '^@entities/(.*)$': '<rootDir>/src/entities/$1',
+    '^@plugins/(.*)$': '<rootDir>/src/plugins/$1',
+    '^@routes/(.*)$': '<rootDir>/src/routes/$1',
+    '^@schemas/(.*)$': '<rootDir>/src/schemas/$1',
   },
-  setupFilesAfterEnv: ['../@core/src/@seedwork/domain/tests/jest.ts'],
+  setupFilesAfterEnv: ['./tests/jest.ts'],
   coverageThreshold: {
     global: {
       statements: 80,

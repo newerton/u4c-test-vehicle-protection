@@ -8,16 +8,21 @@ import { USER_TYPE, User } from '@entities/user.entity';
 
 export const getUsers = async () => {
   const repository = AppDataSource.getRepository(User);
-
-  try {
-    const users = await repository.find({ where: { is_active: true } });
-    return instanceToPlain(users);
-  } catch (e) {
-    console.log(e);
-    throw Boom.badRequest('Unable to retrieve users', e);
-  }
+  const users = await repository.find({
+    where: { is_active: true },
+    order: {
+      created_at: 'DESC',
+    },
+  });
+  return instanceToPlain(users);
 };
 
+export const getUser = async (request: Request) => {
+  const { id } = request.params;
+  const repository = AppDataSource.getRepository(User);
+  const user = await repository.findOneBy({ id });
+  return instanceToPlain(user);
+};
 export const createUser = async (request: Request, h) => {
   const { document, password } = <User>request.payload;
   const repository = AppDataSource.getRepository(User);

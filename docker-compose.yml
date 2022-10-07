@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 services:
   # app:
   #   build:
@@ -21,17 +21,17 @@ services:
   #   command: npm run start
 
   postgres:
-    image: postgres
+    image: postgres:14.5
     container_name: u2c-postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres:/var/lib/postgresql/data
+      - .docker/database/postgres/initdb/:/docker-entrypoint-initdb.d
     environment:
-      - POSTGRES_DB=u4c
+      - POSTGRES_MULTIPLE_DATABASES=u4c,u4c_test
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
-
 volumes:
   postgres:
     driver: local

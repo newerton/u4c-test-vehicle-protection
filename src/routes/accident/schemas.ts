@@ -1,7 +1,7 @@
 import documentValidator from 'cpf-cnpj-validator';
 import * as JoiBase from 'joi';
 
-import joiMessagesSchema from 'schemas/joi.messages.schema';
+import joiMessagesSchema from '@schemas/joi.messages.schema';
 
 const Joi = JoiBase.extend(documentValidator);
 
