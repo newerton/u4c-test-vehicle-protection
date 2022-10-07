@@ -107,3 +107,8 @@ Executando a aplicação
 ```cli
 npm run start
 ```
+
+# Erro a corrigir
+Nos testes, o tempo de criação e drop das tabelas afeta o resultado dos testes. Não encontrei na documentação, de como fazer o mock do DataSource do TypeORM sem afetar a criação e remoção das tabelas.
+
+Esse tempo de criaçãoo e remoção, as vezes retorna um erro na linha ao desconectar o banco de dados, isso ocorre pela latência do CREATE e DROP TABLE, quando está executando a próxima suite de testes, o PostgreSQL ainda criou ou removeu as tabelas do testes anterior.
