@@ -36,7 +36,7 @@
     "joi-phone-number": "^5.1.1",
     "npm": "^8.19.2",
     "pg": "^8.8.0",
-    "typeorm": "^0.3.10"
+    "typeorm": "^0.3.14"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
