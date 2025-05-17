@@ -4,9 +4,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { AccidentEvent } from './accident_event.entity';
+import { AccidentEventUser } from './accident_event_user.entity';
 
 export enum USER_TYPE {
   CUSTOMER = 'CUSTOMER',
@@ -59,4 +63,13 @@ export class User {
   @Exclude()
   @DeleteDateColumn({ nullable: true, select: false })
   deleted_at: Date;
+
+  @OneToMany(() => AccidentEvent, (accidentEvent) => accidentEvent.owner)
+  accidentEvents: AccidentEvent[];
+
+  @OneToMany(
+    () => AccidentEventUser,
+    (accidentEventUser) => accidentEventUser.user,
+  )
+  accidentEventUsers: AccidentEventUser[];
 }

@@ -49,7 +49,7 @@ export class AccidentEvent {
   @DeleteDateColumn({ nullable: true, select: false })
   deleted_at: Date;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.accidentEvents)
   @JoinColumn({ name: 'user_id' })
   owner: User;
 
@@ -57,6 +57,5 @@ export class AccidentEvent {
     () => AccidentEventUser,
     (accidentEventUser) => accidentEventUser.accidentEvent,
   )
-  @JoinColumn({ name: 'id', referencedColumnName: 'user_id' })
   users: AccidentEventUser[];
 }

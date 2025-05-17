@@ -26,20 +26,23 @@ export const manifest = {
     routes: {
       validate: {
         failAction: (request, h, err) => {
-          const firstError = err.details[0];
+          if (!err) {
+            throw Boom.badRequest('Invalid request payload input');
+          }
+          const firstError = (err as any).details[0];
           if (firstError.context.errorCode !== undefined) {
-            throw Boom.badRequest(err.message, {
+            throw Boom.badRequest(String(err.message), {
               errorCode: firstError.context.errorCode,
             });
           } else {
             if (
-              err.isJoi &&
-              Array.isArray(err.details) &&
-              err.details.length > 0
+              (err as any).isJoi &&
+              Array.isArray((err as any).details) &&
+              (err as any).details.length > 0
             ) {
-              throw Boom.badData(err.message);
+              throw Boom.badData(String(err.message));
             }
-            throw Boom.badRequest(err.message);
+            throw Boom.badRequest(String(err.message));
           }
         },
       },
@@ -57,7 +60,7 @@ export const manifest = {
       },
     ],
   },
-};
+} as Glue.Manifest;
 
 export const getServer: () => Promise<Server> = async (): Promise<Server> => {
   const server = await Glue.compose(manifest, {
@@ -88,7 +91,14 @@ const startServer = async () => {
 };
 
 if (require.main === module) {
-  startServer();
+  startServer()
+    .then(() => {
+      console.log('Server started');
+    })
+    .catch((err) => {
+      console.error('Error starting server:', err);
+      process.exit(1);
+    });
 } else {
   console.log('Server setup for testing.');
 }

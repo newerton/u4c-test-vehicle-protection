@@ -1,9 +1,10 @@
 import * as Boom from '@hapi/boom';
+import { ResponseToolkit } from 'hapi';
 
 import { AppDataSource } from '@database/typeorm/datasource';
 import { User } from '@entities/user.entity';
 
-export const userRegistered = async (request: any, h) => {
+export const userRegistered = async (request: any, h: ResponseToolkit) => {
   const { document } = request.payload;
   const repository = AppDataSource.getRepository(User);
   const user = await repository.findOneBy({
@@ -16,7 +17,7 @@ export const userRegistered = async (request: any, h) => {
   return h.continue;
 };
 
-export const userExists = async (request: any, h) => {
+export const userExists = async (request: any, h: ResponseToolkit) => {
   const { id } = request.params;
   const repository = AppDataSource.getRepository(User);
   const user = await repository.findOneBy({ id });

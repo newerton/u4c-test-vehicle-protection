@@ -6,7 +6,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -42,7 +41,7 @@ export class AccidentEventUser {
   @JoinColumn({ name: 'accident_event_id' })
   accidentEvent: AccidentEvent;
 
-  @OneToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.accidentEventUsers)
   @JoinColumn({ name: 'user_id' })
   user: User;
 }

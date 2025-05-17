@@ -50,7 +50,7 @@ export const createValidationAccidentEvent = {
           document: Joi.document()
             .required()
             .cpf()
-            .error((errors: any) => {
+            .error((errors: Record<string, any>) => {
               errors.forEach((err: JoiBase.ErrorReport) => {
                 switch (err.code) {
                   case 'any.required':
@@ -93,7 +93,7 @@ export const updateValidationAccidentEvent = {
           document: Joi.document()
             .required()
             .cpf()
-            .error((errors: any) => {
+            .error((errors: Record<string, any>) => {
               errors.forEach((err: JoiBase.ErrorReport) => {
                 switch (err.code) {
                   case 'any.required':

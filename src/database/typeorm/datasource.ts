@@ -1,7 +1,9 @@
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
 import { get } from '@config/index';
 
-const configDatabase = get('/database');
+const configDatabase: unknown = get('/database');
 
-export const AppDataSource = new DataSource(configDatabase);
+export const AppDataSource = new DataSource(
+  configDatabase as DataSourceOptions,
+);

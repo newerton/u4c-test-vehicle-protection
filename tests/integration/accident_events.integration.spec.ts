@@ -1,40 +1,49 @@
-import path from 'path';
+import * as path from 'path';
 
 import { faker } from '@faker-js/faker/locale/pt_BR';
-import * as Boom from '@hapi/boom';
 import { Server } from '@hapi/hapi';
+import { RequestAccidentEvent } from '@hapipal/confidence';
 import { cpf } from 'cpf-cnpj-validator';
 import request from 'supertest';
 import { validate as isValidUUID } from 'uuid';
 
 import { AppDataSource } from '@database/typeorm/datasource';
-import { USER_TYPE } from '@entities/user.entity';
 import { AccidentEventFixtures } from '@routes/accident/fixtures';
 
 import { getServer } from '../../src/index';
 
+enum USER_TYPE {
+  CUSTOMER = 'CUSTOMER',
+  USER = 'USER',
+}
+
 describe('Accident Events e2e Tests', () => {
   let server: Server;
   let connection: any;
-  let userPayload;
-  let accidentEventPayload;
+  let userPayload: Record<string, any>;
+  let accidentEventPayload: RequestAccidentEvent;
 
   beforeAll(async () => {
-    AppDataSource.setOptions({
-      entities: [path.join(__dirname, '../../src/entities/*.entity.ts')],
-      migrations: [path.join(__dirname, '../../src/entities/*.entity.js')],
-      synchronize: true,
-      dropSchema: true,
-    });
-    connection = await AppDataSource.initialize();
-    await connection.synchronize(true);
-    server = await getServer();
+    try {
+      AppDataSource.setOptions({
+        entities: [path.join(__dirname, '../../src/entities/*.entity.ts')],
+        migrations: [path.join(__dirname, '../../src/entities/*.entity.js')],
+        synchronize: true,
+        dropSchema: true,
+      });
+      connection = await AppDataSource.initialize();
+      await connection.synchronize(true);
+      server = await getServer();
+    } catch (err) {
+      console.error('beforeAll error:', err);
+      throw err;
+    }
   });
 
   beforeEach(() => {
     userPayload = {
-      first_name: faker.name.firstName(),
-      last_name: faker.name.lastName(),
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
       document: cpf.generate(),
       password: '123456',
       repeat_password: '123456',
@@ -46,16 +55,19 @@ describe('Accident Events e2e Tests', () => {
       description: faker.lorem.words(10),
       users: [
         {
-          first_name: faker.name.firstName(),
-          last_name: faker.name.lastName(),
+          first_name: faker.person.firstName(),
+          last_name: faker.person.lastName(),
           document: cpf.generate(),
         },
       ],
+      user_id: '', // será preenchido dinamicamente nos testes
     };
   });
 
   afterAll(async () => {
-    await connection.destroy();
+    if (connection) {
+      await connection.destroy();
+    }
   });
 
   describe('GET /v1/accidents', () => {
@@ -76,8 +88,8 @@ describe('Accident Events e2e Tests', () => {
 
       delete accidentEventPayload.users;
       const payload = {
-        user_id: user.id,
         ...accidentEventPayload,
+        user_id: user.id,
       };
       await request(server.listener)
         .post('/v1/accidents')
@@ -122,8 +134,8 @@ describe('Accident Events e2e Tests', () => {
       const user = allUsers.body[0];
 
       const payload = {
-        user_id: user.id,
         ...accidentEventPayload,
+        user_id: user.id,
       };
 
       await request(server.listener)
@@ -155,9 +167,9 @@ describe('Accident Events e2e Tests', () => {
       expect(description).toEqual(payload.description);
       expect(is_active).toBeTruthy();
       expect(owner).toEqual(user);
-      expect(users[0].user.first_name).toEqual(payload.users[0].first_name);
-      expect(users[0].user.last_name).toEqual(payload.users[0].last_name);
-      expect(users[0].user.document).toEqual(payload.users[0].document);
+      expect(users[0].user.first_name).toEqual(payload.users![0].first_name);
+      expect(users[0].user.last_name).toEqual(payload.users![0].last_name);
+      expect(users[0].user.document).toEqual(payload.users![0].document);
       expect(users[0].user.type).toEqual(USER_TYPE.USER);
     });
   });
@@ -175,8 +187,8 @@ describe('Accident Events e2e Tests', () => {
       const user = allUsers.body[0];
 
       const payload = {
-        user_id: user.id,
         ...accidentEventPayload,
+        user_id: user.id,
       };
 
       await request(server.listener)
@@ -203,13 +215,13 @@ describe('Accident Events e2e Tests', () => {
       expect(accidentEvent.body.is_active).toBeTruthy();
       expect(accidentEvent.body.owner).toEqual(user);
       expect(accidentEvent.body.users[0].user.first_name).toEqual(
-        payload.users[0].first_name,
+        payload.users![0].first_name,
       );
       expect(accidentEvent.body.users[0].user.last_name).toEqual(
-        payload.users[0].last_name,
+        payload.users![0].last_name,
       );
       expect(accidentEvent.body.users[0].user.document).toEqual(
-        payload.users[0].document,
+        payload.users![0].document,
       );
       expect(accidentEvent.body.users[0].user.type).toEqual(USER_TYPE.USER);
     });
@@ -250,8 +262,8 @@ describe('Accident Events e2e Tests', () => {
       const user = allUsers.body[0];
 
       const payload = {
-        user_id: user.id,
         ...accidentEventPayload,
+        user_id: user.id,
       };
       await request(server.listener)
         .post('/v1/accidents')
@@ -308,8 +320,8 @@ describe('Accident Events e2e Tests', () => {
         .expect(201);
 
       const payload = {
-        user_id: faker.datatype.uuid(),
         ...accidentEventPayload,
+        user_id: faker.string.uuid(),
       };
       await request(server.listener)
         .post('/v1/accidents')
@@ -334,8 +346,8 @@ describe('Accident Events e2e Tests', () => {
       const user = allUsers.body[0];
 
       const payload_1 = {
-        user_id: user.id,
         ...accidentEventPayload,
+        user_id: user.id,
       };
       await request(server.listener)
         .post('/v1/accidents')
@@ -354,8 +366,8 @@ describe('Accident Events e2e Tests', () => {
         user_id: users[0].user.id,
         users: [
           {
-            first_name: faker.name.firstName(),
-            last_name: faker.name.lastName(),
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
             document: cpf.generate(),
           },
         ],
@@ -389,8 +401,8 @@ describe('Accident Events e2e Tests', () => {
       const user = allUsers.body[0];
 
       const payload = {
-        user_id: user.id,
         ...accidentEventPayload,
+        user_id: user.id,
       };
 
       await request(server.listener)
@@ -422,9 +434,9 @@ describe('Accident Events e2e Tests', () => {
       expect(description).toEqual(payload.description);
       expect(is_active).toBeTruthy();
       expect(owner).toEqual(user);
-      expect(users[0].user.first_name).toEqual(payload.users[0].first_name);
-      expect(users[0].user.last_name).toEqual(payload.users[0].last_name);
-      expect(users[0].user.document).toEqual(payload.users[0].document);
+      expect(users[0].user.first_name).toEqual(payload.users![0].first_name);
+      expect(users[0].user.last_name).toEqual(payload.users![0].last_name);
+      expect(users[0].user.document).toEqual(payload.users![0].document);
       expect(users[0].user.type).toEqual(USER_TYPE.USER);
 
       await request(server.listener)
@@ -453,8 +465,8 @@ describe('Accident Events e2e Tests', () => {
       const user = allUsers.body[0];
 
       const payload = {
-        user_id: user.id,
         ...accidentEventPayload,
+        user_id: user.id,
       };
 
       await request(server.listener)
@@ -486,9 +498,9 @@ describe('Accident Events e2e Tests', () => {
       expect(description).toEqual(payload.description);
       expect(is_active).toBeTruthy();
       expect(owner).toEqual(user);
-      expect(users[0].user.first_name).toEqual(payload.users[0].first_name);
-      expect(users[0].user.last_name).toEqual(payload.users[0].last_name);
-      expect(users[0].user.document).toEqual(payload.users[0].document);
+      expect(users[0].user.first_name).toEqual(payload.users![0].first_name);
+      expect(users[0].user.last_name).toEqual(payload.users![0].last_name);
+      expect(users[0].user.document).toEqual(payload.users![0].document);
       expect(users[0].user.type).toEqual(USER_TYPE.USER);
 
       await request(server.listener)
@@ -504,13 +516,13 @@ describe('Accident Events e2e Tests', () => {
         .expect(200);
 
       expect(response.body.users[0].user.first_name).toEqual(
-        accidentEventPayload.users[0].first_name,
+        accidentEventPayload.users![0].first_name,
       );
       expect(response.body.users[0].user.last_name).toEqual(
-        accidentEventPayload.users[0].last_name,
+        accidentEventPayload.users![0].last_name,
       );
       expect(response.body.users[0].user.document).toEqual(
-        accidentEventPayload.users[0].document,
+        accidentEventPayload.users![0].document,
       );
       expect(response.body.users[0].user.type).toEqual(USER_TYPE.USER);
     });
@@ -536,8 +548,8 @@ describe('Accident Events e2e Tests', () => {
           const user = allUsers.body[0];
 
           const accidentPayload = {
-            user_id: user.id,
             ...accidentEventPayload,
+            user_id: user.id,
           };
 
           await request(server.listener)

@@ -1,44 +1,45 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
+    "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": false,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "baseUrl": "./src",
+    "resolveJsonModule": true,
     "paths": {
       "@config/*": [
-        "config/*"
+        "./src/config/*"
       ],
       "@database/*": [
-        "database/*"
+        "./src/database/*"
       ],
       "@entities/*": [
-        "entities/*"
+        "./src/entities/*"
       ],
       "@plugins/*": [
-        "plugins/*"
+        "./src/plugins/*"
       ],
       "@routes/*": [
-        "routes/*"
+        "./src/routes/*"
       ],
       "@schemas/*": [
-        "schemas/*"
+        "./src/schemas/*"
       ],
+      "@test/*": [
+        "./test/*"
+      ]
     }
   },
   "include": [

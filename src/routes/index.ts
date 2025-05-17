@@ -1,10 +1,10 @@
-import { Server } from '@hapi/hapi';
+import { Server, ServerRoute } from '@hapi/hapi';
 
 import { accidentEventRouters } from './accident';
 import { userRouters } from './users';
 
-const register = async (server: Server) => {
-  server.route([...accidentEventRouters, ...userRouters]);
+const register = (server: Server) => {
+  server.route([...accidentEventRouters, ...userRouters] as ServerRoute[]);
 };
 
 module.exports = {

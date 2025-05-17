@@ -10,14 +10,14 @@ export class AccidentEventFixtures {
         },
       },
       {
-        payload: { user_id: faker.datatype.uuid() },
+        payload: { user_id: faker.string.uuid() },
         expected: {
           message: '"Veículo" é obrigatório',
         },
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
         },
         expected: {
@@ -26,7 +26,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
         },
@@ -36,7 +36,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -70,7 +70,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: null,
         },
         expected: {
@@ -79,7 +79,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: '',
         },
         expected: {
@@ -88,7 +88,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 0,
         },
@@ -98,7 +98,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: '',
         },
@@ -108,7 +108,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: '1bc',
         },
@@ -118,7 +118,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: null,
@@ -129,7 +129,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: 123,
@@ -140,7 +140,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: '',
@@ -151,7 +151,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -163,7 +163,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -175,7 +175,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -187,7 +187,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -199,7 +199,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -216,7 +216,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -233,14 +233,14 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
+              first_name: faker.person.firstName(),
             },
           ],
         },
@@ -250,14 +250,14 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
+              first_name: faker.person.firstName(),
               last_name: null,
             },
           ],
@@ -268,14 +268,14 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
+              first_name: faker.person.firstName(),
               last_name: '',
             },
           ],
@@ -286,15 +286,15 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
-              last_name: faker.name.lastName(),
+              first_name: faker.person.firstName(),
+              last_name: faker.person.lastName(),
             },
           ],
         },
@@ -304,15 +304,15 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
-              last_name: faker.name.lastName(),
+              first_name: faker.person.firstName(),
+              last_name: faker.person.lastName(),
               document: 12345678909,
             },
           ],
@@ -323,15 +323,15 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
-              last_name: faker.name.lastName(),
+              first_name: faker.person.firstName(),
+              last_name: faker.person.lastName(),
               document: 'abcdrfgfhijkl',
             },
           ],
@@ -347,7 +347,7 @@ export class AccidentEventFixtures {
     return [
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -359,7 +359,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -371,7 +371,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -383,7 +383,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -395,7 +395,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -437,7 +437,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -454,7 +454,7 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
@@ -471,14 +471,14 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
+              first_name: faker.person.firstName(),
             },
           ],
         },
@@ -488,14 +488,14 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
+              first_name: faker.person.firstName(),
               last_name: null,
             },
           ],
@@ -506,14 +506,14 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
+              first_name: faker.person.firstName(),
               last_name: '',
             },
           ],
@@ -524,15 +524,15 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
-              last_name: faker.name.lastName(),
+              first_name: faker.person.firstName(),
+              last_name: faker.person.lastName(),
             },
           ],
         },
@@ -542,15 +542,15 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
-              last_name: faker.name.lastName(),
+              first_name: faker.person.firstName(),
+              last_name: faker.person.lastName(),
               document: 12345678909,
             },
           ],
@@ -561,15 +561,15 @@ export class AccidentEventFixtures {
       },
       {
         payload: {
-          user_id: faker.datatype.uuid(),
+          user_id: faker.string.uuid(),
           vehicle: faker.vehicle.vehicle(),
           year: 2022,
           license_plate: faker.vehicle.vrm(),
           description: faker.lorem.words(4),
           users: [
             {
-              first_name: faker.name.firstName(),
-              last_name: faker.name.lastName(),
+              first_name: faker.person.firstName(),
+              last_name: faker.person.lastName(),
               document: 'abcdrfgfhijkl',
             },
           ],

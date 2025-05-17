@@ -5,9 +5,9 @@ import phoneValidator from 'joi-phone-number';
 
 import joiMessagesSchema from '@schemas/joi.messages.schema';
 
-const Joi = JoiBase.extend(dateValidator)
-  .extend(documentValidator)
-  .extend(phoneValidator);
+const Joi = JoiBase.extend(dateValidator as unknown as JoiBase.Extension)
+  .extend(documentValidator as unknown as JoiBase.Extension)
+  .extend(phoneValidator as unknown as JoiBase.Extension);
 
 export const uuidValidation = {
   params: Joi.object({
@@ -49,7 +49,7 @@ export const createValidationUser = {
     birthday: Joi.date()
       .allow(null)
       .format('DD/MM/YYYY')
-      .error((errors: any) => {
+      .error((errors: Record<string, any>) => {
         errors.forEach((err: JoiBase.ErrorReport) => {
           switch (err.code) {
             case 'date.format':
@@ -63,7 +63,7 @@ export const createValidationUser = {
     phone: Joi.string()
       .allow(null)
       .phoneNumber({ defaultCountry: 'BR', strict: true })
-      .error((errors: any) => {
+      .error((errors: Record<string, any>) => {
         errors.forEach((err: JoiBase.ErrorReport) => {
           switch (err.code) {
             case 'phoneNumber.invalid':
@@ -97,7 +97,7 @@ export const updateValidationUser = {
     birthday: Joi.date()
       .allow(null)
       .format('DD/MM/YYYY')
-      .error((errors: any) => {
+      .error((errors: Record<string, any>) => {
         errors.forEach((err: JoiBase.ErrorReport) => {
           switch (err.code) {
             case 'date.format':
@@ -111,7 +111,7 @@ export const updateValidationUser = {
     phone: Joi.string()
       .allow(null)
       .phoneNumber({ defaultCountry: 'BR', strict: true })
-      .error((errors: any) => {
+      .error((errors: Record<string, any>) => {
         errors.forEach((err: JoiBase.ErrorReport) => {
           switch (err.code) {
             case 'phoneNumber.invalid':

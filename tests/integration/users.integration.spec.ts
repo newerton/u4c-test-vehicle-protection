@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 
 import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Server } from '@hapi/hapi';
@@ -7,14 +7,19 @@ import request from 'supertest';
 import { validate as isValidUUID } from 'uuid';
 
 import { AppDataSource } from '@database/typeorm/datasource';
-import { USER_TYPE } from '@entities/user.entity';
 import { UserFixtures } from '@routes/users/fixtures';
 
 import { getServer } from '../../src/index';
+
+enum USER_TYPE {
+  CUSTOMER = 'CUSTOMER',
+  USER = 'USER',
+}
+
 describe('User e2e Tests', () => {
   let server: Server;
   let connection: any;
-  let userPayload;
+  let userPayload: Record<string, any>;
 
   beforeAll(async () => {
     AppDataSource.setOptions({
@@ -30,8 +35,8 @@ describe('User e2e Tests', () => {
 
   beforeEach(() => {
     userPayload = {
-      first_name: faker.name.firstName(),
-      last_name: faker.name.lastName(),
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
       document: cpf.generate(),
       password: '123456',
       repeat_password: '123456',

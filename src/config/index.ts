@@ -36,5 +36,5 @@ const config = {
 
 const store = new Confidence.Store(config);
 
-export const get = (key: string) => store.get(key, criteria);
-export const meta = (key: string) => store.meta(key, criteria);
+export const get = (key: string) => store.get(key, criteria) as unknown;
+export const meta = (key: string) => store.meta(key, criteria) as unknown;

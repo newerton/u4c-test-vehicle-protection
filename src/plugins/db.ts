@@ -1,6 +1,6 @@
 import { AppDataSource } from '@database/typeorm/datasource';
 
-const register = async () => {
+const register = () => {
   return AppDataSource;
 };
 

@@ -1,6 +1,7 @@
 import { Request } from '@hapi/hapi';
 import { hash } from 'bcrypt';
 import { instanceToPlain } from 'class-transformer';
+import { ResponseToolkit } from 'hapi';
 
 import { AppDataSource } from '@database/typeorm/datasource';
 import { USER_TYPE, User } from '@entities/user.entity';
@@ -23,7 +24,7 @@ export const getUser = async (request: Request) => {
   return instanceToPlain(user);
 };
 
-export const createUser = async (request: Request, h) => {
+export const createUser = async (request: Request, h: ResponseToolkit) => {
   const { document, password } = <User>request.payload;
   const repository = AppDataSource.getRepository(User);
   const hashedPassword = await hash(password, 8);
@@ -38,11 +39,12 @@ export const createUser = async (request: Request, h) => {
   return h.response().code(201);
 };
 
-export const updateUser = async (request: Request, h) => {
+export const updateUser = async (request: Request, h: ResponseToolkit) => {
   const { id } = request.params;
-  const payload = <User>request.payload;
+  const payload = request.payload as any;
 
   delete payload.document;
+
   const newPayload = { id, ...payload };
 
   const password = newPayload.password;
@@ -51,7 +53,7 @@ export const updateUser = async (request: Request, h) => {
   delete newPayload.password;
   delete newPayload.repeat_password;
   if (passwordIsValid) {
-    const hashedPassword = await hash(password, 8);
+    const hashedPassword = await hash(String(password), 8);
     newPayload.password = hashedPassword;
   }
 
